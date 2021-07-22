@@ -7,6 +7,7 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.research.glrecoder.GLRecoder;
@@ -15,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class ShapeView extends GLSurfaceView{
+
+	private static final String TAG = "ShapeView";
 	public static int sScreenWidth;
 	public static int sScreenHeight;
 	
@@ -66,9 +69,11 @@ public class ShapeView extends GLSurfaceView{
 		public void onSurfaceChanged(GL10 gl, int width, int height) {
 			GLRecoder.init(width, height,mEglConfig);
 			try {
-				GLRecoder.startEncoder(new File("/sdcard/zzzzzzz.mp4"));
+				File file = new File("/sdcard/zzzzzzz.mp4");
+				GLRecoder.startEncoder(file);
 			} catch (IOException e1) {
 				e1.printStackTrace();
+				Log.d(TAG, "onSurfaceChanged: "+e1.getMessage());
 			}
 			sScreenWidth = width;
 			sScreenHeight = height;

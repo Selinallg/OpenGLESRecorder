@@ -1,5 +1,8 @@
 package com.example.weiersyuan.glrecoderdemo;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mGLView = new ShapeView(this);
         setContentView(mGLView);
+        checkPermission();
     }
 
     @Override
@@ -38,5 +42,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mGLView.onPause();
+    }
+
+    public boolean checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+            }, 1);
+
+        }
+        return false;
     }
 }
